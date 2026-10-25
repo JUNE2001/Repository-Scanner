@@ -261,7 +261,6 @@
 		                                 깃허브 주소 입력값 : <span style="color:green;"> 임시입력주소 </span>
 				    <br><span style="color:blue;">http://raw.git임시주소 출력</span>
 				    <br><span style="color:blue;">http://raw.git임시주소 출력</span>
-				    <br><span>AWS Access KEY 의심 문자열 : #AW임시입력</span>
 				    <br><span style="color:red;">IP 의심 문자열 : 192.123.123.123</span>
 				    <br><span>주민번호 의심 문자열 : 주민번호:1234568-12345678</span>
             <br><span>주민번호 의심 문자열 : 1234568-12345678</span>
@@ -278,10 +277,6 @@
                         <i class="fa fa-phone"></i>&nbsp 전화번호 : <span style="color:rgb(215 121 238);" >{{ value|length }}건</span>
                       {% elif key == 'ip' %}
                         <i class="fa fa-hdd-o"></i>&nbsp IP : <span style="color:#56b256;" >{{ value|length }}건</span>
-                      {% elif key == 'aws_access' %}
-                        <i class="fa fa-wrench"></i>&nbsp AWS Access Key : <span style="color:#6a6af2;" >{{ value|length }}건</span>
-                      {% elif key == 'aws_secret' %}
-                        <i class="fa fa-lock"></i>&nbsp AWS Secret Key : <span style="color:rgb(150, 92, 17);" >{{ value|length }}건</span>
                       {% elif key == 'ssh_private_key' %}
                         <i class="fa fa-key"></i>&nbsp SSH 개인키 : <span style="color:#bc3232;" >{{ value|length }}건</span>
                       {% elif key == 'openai_api_key' %}
@@ -351,57 +346,6 @@
               </div>
           </div>
 
-            <div class="row">
-              <div class="col-md-6 mb"  >
-                <div class="content-panel">
-                  <h4 style="margin-left: 20px;"><i class="fa fa-wrench"></i>&nbsp AWS ACCESSKEY</h4><table class="table table-hover">
-                    <thead>
-                      <tr>
-                        <th class="col-md-1">#</th>
-                        <th class="col-md-7">Content</th>
-                        <th class="col-md-2">File</th>
-                        <th class="col-md-2" style="text-align:center;">Status</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {% for aac in Detect_data.get('aws_access') %}
-                      <tr scope="row" style="cursor: pointer;" onclick='detailcode({{ aac[1]|tojson }})'>
-                        <td>{{ loop.index }}</td>
-                        <td class="ellipsis"><span>{{aac[0]}}</span></td>
-                        <td class="ellipsis"><span>{{aac[1]}}</span></td>
-                        <td style="text-align:center;"><span class="label label-warning label-mini" style="background-color: red;">위험</span></td>
-                      </tr>
-                      {% endfor %}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-              <div class="col-md-6 mb"  >
-                <div class="content-panel">
-                  <h4 style="margin-left: 20px;"><i class="fa fa-lock"></i>&nbsp AWS SECRET KEY</h4><table class="table table-hover">
-                    <thead>
-                      <tr>
-                        <th class="col-md-1">#</th>
-                        <th class="col-md-7">Content</th>
-                        <th class="col-md-2">File</th>
-                        <th class="col-md-2" style="text-align:center;">Status</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {% for secr in Detect_data.get('aws_secret') %}
-                      <tr scope="row" style="cursor: pointer;" onclick='detailcode({{ secr[1]|tojson }})'>
-                        <td>{{ loop.index }}</td>
-                        <td class="ellipsis"><span>{{secr[0]}}</span></td>
-                        <td class="ellipsis"><span>{{secr[1]}}</span></td>
-                        <td style="text-align:center;"><span class="label label-warning label-mini">경고</span></td>
-                      </tr>
-                      {% endfor %}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-  
             <div class="row">
               <div class="col-md-6 mb"  >
                 <div class="content-panel">

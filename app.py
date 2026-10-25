@@ -12,8 +12,7 @@ CORS(app)
 
 def empty_result(error=None):
     return render_template('index.html',
-        Detect_data={'reg': [], 'call': [], 'aws_access': [], 'aws_secret': [], 'ip': [],
-                     'ssh_private_key': [], 'openai_api_key': []},
+        Detect_data={'reg': [], 'call': [], 'ip': [], 'ssh_private_key': [], 'openai_api_key': []},
         repo=['', '', ''], Detect_count=0, All_count=0, User_url='', error=error)
 
 

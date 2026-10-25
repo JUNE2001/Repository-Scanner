@@ -33,8 +33,14 @@ class HubGitTest(unittest.TestCase):
         self.assertEqual(detected, 0)
 
     def test_phone_detection_returns_only_phone_number(self):
-        data, _, _ = code_regex([['phone="010-2468-1357"']], ['customer.py'])
-        self.assertEqual(data['call'], [['010-2468-1357', 'customer.py']])
+        data, detected, _ = code_regex([['phone="010-2468-1357"', 'backup=01024681357']], ['customer.py'])
+        self.assertEqual(data['call'], [['010-2468-1357', 'customer.py'], ['01024681357', 'customer.py']])
+        self.assertEqual(detected, 2)
+
+    def test_resident_number_uses_six_and_seven_digit_rule(self):
+        data, detected, _ = code_regex([['id=123456-1234567', 'short=12345-1234567']], ['customer.py'])
+        self.assertEqual(data['reg'], [['id=123456-1234567', 'customer.py']])
+        self.assertEqual(detected, 1)
 
     def test_ssh_private_key_detection(self):
         data, detected, _ = code_regex([['-----BEGINOPENSSHPRIVATEKEY-----']], ['id_ed25519'])
@@ -51,11 +57,7 @@ class HubGitTest(unittest.TestCase):
         self.assertTrue(displayed.endswith('3456'))
         self.assertEqual(detected, 1)
 
-    def test_ssh_footer_is_not_detected_as_aws_access_key(self):
-        data, _, _ = code_regex([['-----ENDOPENSSHPRIVATEKEY-----']], ['id_ed25519'])
-        self.assertEqual(data['aws_access'], [])
-
-    @patch('app.code_regex', return_value=({'reg': [], 'call': [], 'aws_access': [], 'aws_secret': [], 'ip': [], 'ssh_private_key': [], 'openai_api_key': []}, 0, 1))
+    @patch('app.code_regex', return_value=({'reg': [], 'call': [], 'ip': [], 'ssh_private_key': [], 'openai_api_key': []}, 0, 1))
     @patch('app.code_parser', return_value=[['safe']])
     @patch('app.git_parser', return_value=['README.md'])
     @patch('app.repository_info', return_value=('owner', 'repo', 'main'))

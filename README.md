@@ -14,11 +14,9 @@ HUB Repository Scanner는 공개 GitHub 저장소의 소스 파일을 검사해 
 
 | 항목 | 탐지 예시 | 비고 |
 |---|---|---|
-| 주민등록번호 형식 | `YYMMDD-NNNNNNN` | 문자열 형식 기반 탐지 |
-| 휴대전화 번호 | `010-1234-5678` | 국내 휴대전화 형식 |
+| 주민등록번호 형식 | `NNNNNN-NNNNNNN` | 숫자 6자리-7자리 형식 |
+| 휴대전화 번호 | `010-NNNN-NNNN`, `010NNNNNNNN` | 010으로 시작하는 두 형식 |
 | IPv4 주소 | `192.0.2.10` | IPv4 범위 검사 포함 |
-| AWS Access Key | `AKIA...`, `ASIA...` | 접두사와 길이 기반 탐지 |
-| AWS Secret Key | 40자 키 문자열 | 형식 기반 탐지 |
 | SSH 개인키 | `BEGIN OPENSSH PRIVATE KEY` 등 | OpenSSH, RSA, EC, DSA 헤더 탐지 |
 | OpenAI API 키 | `sk-...`, `sk-proj-...`, `sk-svcacct-...` | 화면에는 일부만 남기고 마스킹 |
 

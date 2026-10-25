@@ -68,14 +68,11 @@ def _mask_openai_key(value):
 
 def code_regex(code_data, code_url):
     detect_data = {
-        'reg': [], 'call': [], 'aws_access': [], 'aws_secret': [], 'ip': [],
-        'ssh_private_key': [], 'openai_api_key': []
+        'reg': [], 'call': [], 'ip': [], 'ssh_private_key': [], 'openai_api_key': []
     }
     patterns = (
-        ('reg', re.compile(r"(?:[0-9]{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12][0-9]|3[01]))-[1-4][0-9]{6}")),
-        ('call', re.compile(r"(?<!\d)01[016789](?:-\d{3,4}-\d{4}|\d{7,8})(?!\d)")),
-        ('aws_access', re.compile(r"(?<![A-Z0-9])(?:AKIA|ASIA)[A-Z0-9]{16}(?![A-Z0-9])")),
-        ('aws_secret', re.compile(r"(?<![A-Za-z0-9/+=])[A-Za-z0-9/+=]{40}(?![A-Za-z0-9/+=])")),
+        ('reg', re.compile(r"(?<!\d)\d{6}-\d{7}(?!\d)")),
+        ('call', re.compile(r"(?<!\d)010(?:-\d{4}-\d{4}|\d{8})(?!\d)")),
         ('ip', re.compile(r"(?<![\d.])(?:25[0-5]|2[0-4]\d|1?\d?\d)(?:\.(?:25[0-5]|2[0-4]\d|1?\d?\d)){3}(?![\d.])")),
         ('ssh_private_key', re.compile(r"-----BEGIN(?:OPENSSH|RSA|EC|DSA)PRIVATEKEY-----")),
         ('openai_api_key', re.compile(r"(?<![A-Za-z0-9_-])sk-(?:proj-|svcacct-)?[A-Za-z0-9_-]{20,}(?![A-Za-z0-9_-])")),
