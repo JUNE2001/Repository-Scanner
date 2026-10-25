@@ -57,6 +57,23 @@
   font-size: 20px !important; 
   }
 
+  .row .col-md-6.mb > .content-panel {
+    max-height: 380px;
+    overflow-y: auto;
+  }
+
+  .content-panel .table {
+    table-layout: fixed;
+    margin-bottom: 0;
+  }
+
+  .content-panel .table thead th {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: #ffffff;
+  }
+
 </style>
         
 </head>
@@ -250,28 +267,28 @@
             <br><span>주민번호 의심 문자열 : 1234568-12345678</span>
           </blockquote>
           -->
-              <h4><i class="fa fa-desktop"></i>&nbsp 전체탐지내역</h4>
-                <blockquote contenteditable="fales" style="font-size: 17.5px;">
+              <h4><i class="fa fa-desktop"></i>&nbsp 항목별 탐지 개수</h4>
+                <blockquote style="font-size: 17.5px;">
                   <ul>
                     {% for key,value in Detect_data.items() %}
                     <li> 
                       {% if key == 'reg' %}
-                        <i class="fa fa-user"></i>&nbsp 주민등록번호 탐지 : <span id="text" style="color:#f45b5b;" >{{value}}</span>
+                        <i class="fa fa-user"></i>&nbsp 주민등록번호 : <span style="color:#f45b5b;" >{{ value|length }}건</span>
                       {% elif key == 'call' %}
-                        <i class="fa fa-phone"></i>&nbsp 전화번호 탐지 : <span id="text" style="color: rgb(215 121 238);" >{{value}}</span>
+                        <i class="fa fa-phone"></i>&nbsp 전화번호 : <span style="color:rgb(215 121 238);" >{{ value|length }}건</span>
                       {% elif key == 'ip' %}
-                        <i class="fa fa-hdd-o"></i>&nbsp IP : <span id="text" style="color:#56b256;" >{{value}}</span>
+                        <i class="fa fa-hdd-o"></i>&nbsp IP : <span style="color:#56b256;" >{{ value|length }}건</span>
                       {% elif key == 'aws_access' %}
-                        <i class="fa fa-wrench"></i>&nbsp aws_access : <span id="text" style="color:#6a6af2;" >{{value}}</span>
+                        <i class="fa fa-wrench"></i>&nbsp AWS Access Key : <span style="color:#6a6af2;" >{{ value|length }}건</span>
                       {% elif key == 'aws_secret' %}
-                        <i class="fa fa-lock"></i>&nbsp&nbsp aws_secret : <span id="text" style="color:rgb(150, 92, 17);" >{{value}}</span>
+                        <i class="fa fa-lock"></i>&nbsp AWS Secret Key : <span style="color:rgb(150, 92, 17);" >{{ value|length }}건</span>
                       {% elif key == 'ssh_private_key' %}
-                        <i class="fa fa-key"></i>&nbsp SSH 개인키 : <span id="text" style="color:#bc3232;" >{{value}}</span>
+                        <i class="fa fa-key"></i>&nbsp SSH 개인키 : <span style="color:#bc3232;" >{{ value|length }}건</span>
                       {% elif key == 'openai_api_key' %}
-                        <i class="fa fa-key"></i>&nbsp OpenAI API 키 : <span id="text" style="color:#bc3232;" >{{value}}</span>
+                        <i class="fa fa-key"></i>&nbsp OpenAI API 키 : <span style="color:#bc3232;" >{{ value|length }}건</span>
 
                       {% else %}
-                      <span id="text" style="color:black;" >{{key}},{{value}}</span>
+                      <span style="color:black;" >{{ key }} : {{ value|length }}건</span>
                       {% endif %}
                     </li>
                     {% endfor %}

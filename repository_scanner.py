@@ -73,7 +73,7 @@ def code_regex(code_data, code_url):
     }
     patterns = (
         ('reg', re.compile(r"(?:[0-9]{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12][0-9]|3[01]))-[1-4][0-9]{6}")),
-        ('call', re.compile(r"01[016789]\D\d{3,4}\D\d{4}")),
+        ('call', re.compile(r"(?<!\d)01[016789](?:-\d{3,4}-\d{4}|\d{7,8})(?!\d)")),
         ('aws_access', re.compile(r"(?<![A-Z0-9])(?:AKIA|ASIA)[A-Z0-9]{16}(?![A-Z0-9])")),
         ('aws_secret', re.compile(r"(?<![A-Za-z0-9/+=])[A-Za-z0-9/+=]{40}(?![A-Za-z0-9/+=])")),
         ('ip', re.compile(r"(?<![\d.])(?:25[0-5]|2[0-4]\d|1?\d?\d)(?:\.(?:25[0-5]|2[0-4]\d|1?\d?\d)){3}(?![\d.])")),
@@ -88,7 +88,9 @@ def code_regex(code_data, code_url):
                 match = pattern.search(str(code_str))
                 if match is not None:
                     content = str(code_str)
-                    if key == 'ssh_private_key':
+                    if key == 'call':
+                        content = match.group(0)
+                    elif key == 'ssh_private_key':
                         content = match.group(0)
                     elif key == 'openai_api_key':
                         content = _mask_openai_key(match.group(0))

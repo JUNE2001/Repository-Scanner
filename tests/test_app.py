@@ -26,6 +26,16 @@ class HubGitTest(unittest.TestCase):
         self.assertEqual(data['ip'][0][1], 'config.py')
         self.assertEqual((detected, count), (2, 2))
 
+    def test_phone_detection_rejects_invalid_separators(self):
+        samples = [['010A1234B5678', '2010-1234-5678', '010-12-3456', '010.1234.5678']]
+        data, detected, _ = code_regex(samples, ['invalid.txt'])
+        self.assertEqual(data['call'], [])
+        self.assertEqual(detected, 0)
+
+    def test_phone_detection_returns_only_phone_number(self):
+        data, _, _ = code_regex([['phone="010-2468-1357"']], ['customer.py'])
+        self.assertEqual(data['call'], [['010-2468-1357', 'customer.py']])
+
     def test_ssh_private_key_detection(self):
         data, detected, _ = code_regex([['-----BEGINOPENSSHPRIVATEKEY-----']], ['id_ed25519'])
         self.assertEqual(data['ssh_private_key'], [['-----BEGINOPENSSHPRIVATEKEY-----', 'id_ed25519']])
