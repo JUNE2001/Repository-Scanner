@@ -1,7 +1,7 @@
 import os
 
 import requests
-from flask import Flask, render_template, request
+from flask import Flask, redirect, render_template, request, url_for
 from flask_cors import CORS
 
 from repository_scanner import code_parser, code_regex, git_parser, parse_repository_url, repository_info
@@ -21,8 +21,11 @@ def main():
     return empty_result()
 
 
-@app.route('/post', methods=['POST'])
+@app.route('/post', methods=['GET', 'POST'])
 def post():
+    if request.method == 'GET':
+        return redirect(url_for('main'))
+
     user_url = request.form.get('userURL', '').strip()
     try:
         owner, repo_name = parse_repository_url(user_url)
