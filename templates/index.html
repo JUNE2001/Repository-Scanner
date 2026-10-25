@@ -213,7 +213,7 @@
               <div class="col-md-4 col-sm-4 mb">
                 <div class="darkblue-panel pn">
                   <div class="darkblue-header">
-                    <h5>탐지 수</h5>
+                    <h5>탐지율</h5>
                   </div>
                   <canvas id="serverstatus02" height="120" width="120"></canvas>
                   <script>
@@ -232,7 +232,7 @@
                     var detect_percent={{ ((Detect_count / All_count * 100) if All_count else 0)|tojson }};
                    
                   </script>
-                  <p style="color:white"><i class="fa fa-square" style="color: #f38375;"></i> 탐지&nbsp<i class="fa fa-square" style="color: #4ECDC4;"></i> 전체데이터</p>
+                  <p style="color:white"><i class="fa fa-square" style="color: #f38375;"></i> 탐지 {{ Detect_count }}건&nbsp;&nbsp;<i class="fa fa-square" style="color: #4ECDC4;"></i> 검사 {{ All_count }}건</p>
                   <footer>
                     <div class="pull-left" style="width: 70%;">
                       <h5 style="white-space: nowrap;
@@ -569,7 +569,10 @@
 
   }
 
-  $('#gid').html("<h5>"+detect_percent.toFixed(1)+"%"+"</h5>");
+  var detect_percent_text = detect_percent > 0 && detect_percent < 0.1
+    ? "&lt;0.1%"
+    : detect_percent.toFixed(1) + "%";
+  $('#gid').html("<h5>" + detect_percent_text + "</h5>");
   // $('#gid').html(detect_percent.toFixed(1)+"%");
 
   </script>

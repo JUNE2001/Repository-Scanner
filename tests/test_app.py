@@ -14,6 +14,7 @@ class HubGitTest(unittest.TestCase):
         response = self.client.get('/')
         self.assertEqual(response.status_code, 200)
         self.assertIn(b'HUB Repository Search', response.data)
+        self.assertIn(b'detect_percent < 0.1', response.data)
 
     def test_repository_url_validation(self):
         self.assertEqual(parse_repository_url('https://github.com/openai/openai-python'), ('openai', 'openai-python'))
