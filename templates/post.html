@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Post</title>
+</head>
+<body>
+    <form action="/post" method="post">
+        <p>입력 : <input type="text" name="test"></p>
+        <input type="submit" value="실행">
+    </form>
+    <input type="text" name="result"></p>
+    <ul>
+        {% for i in data %}
+        <li> {{i}} </li>
+        {% endfor %}
+      </ul>
+ 
+</body>
+</html>

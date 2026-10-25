@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="HUB KUCIS 2020 PROJECT">
+  <meta name="author" content="HUB">
+  <meta name="keyword" content="HUB, GitHub, KUCIS">
+  <title>HUB KUCIS 2020</title>
+
+  <!-- Favicons -->
+  <link href="{{ url_for('static', filename='img/favicon.png') }}" rel="icon">
+  <link href="{{ url_for('static', filename='img/apple-touch-icon.png') }}" rel="apple-touch-icon">
+
+  <!-- Bootstrap core CSS -->
+  <link href="{{ url_for('static', filename='lib/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+  <!--external css-->
+  <link href="{{ url_for('static', filename='lib/font-awesome/css/font-awesome.css') }}" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/zabuto_calendar.css') }}">
+  <link rel="stylesheet" type="text/css"
+    href="{{ url_for('static', filename='lib/gritter/css/jquery.gritter.css') }}" />
+  <!-- Custom styles for this template -->
+  <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='css/style-responsive.css') }}" rel="stylesheet">
+  <script src="{{ url_for('static', filename='lib/chart-master/Chart.js') }}"></script>
+
+<style>
+  body{   
+    font-size: 19px;
+  }
+
+  .message-p .message {
+     font-size: 17px; 
+  }
+
+  .content-panel h4 {
+    font-weight: 600;
+  }
+  .ellipsis{
+    position: relative;
+    min-width: 100%;
+    content: '';
+    
+  }
+  .ellipsis span{
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 100%;
+    position: absolute;
+  }
+
+  #detailcode::placeholder {
+  color: white !important;
+  font-weight: bold !important;
+  font-size: 20px !important; 
+  }
+
+</style>
+        
+</head>
+
+<body>
+  <section id="container">
+
+    <header class="header black-bg">
+
+      <a href="/" class="logo"><b><span>H</span>UB</b> & <i class="fa fa-github"></i></a>
+    </header>
+    <section >
+      <section class="wrapper">
+        <div class="row">
+          <div class="col-lg-1"></div>
+          <div class="col-lg-8 main-chart" style="float: none; margin: 0 auto;">
+            <!--CUSTOM CHART START -->
+            <div class="border-head">
+              <h3>HUB Repository Search</h3>
+            </div>
+
+            <!-- DIRECT MESSAGE PANEL -->
+            <div class="col-md-12 mb" style="padding-left: 0px;padding-right: 0px;">
+              <div class="message-p pn" style="
+              height: auto;
+          ">
+                <div class="message-header" style="background: #5e6b7d;">
+                  <h5 style="font-size: 17px;color: white;font-size: inherit;font-weight: 900;">URL 검색</h5>
+                </div>
+                <div class="row">
+                  <div class="col-md-4 centered hidden-sm hidden-xs" style="height: 209px;margin-bottom: 12px;padding-left: 64px;">
+                    <!-- <img src="img/ui-danro.jpg" class="img-circle" width="65"> -->
+    
+                  <span style="
+                      font-size: 44px;
+                      color: #000000;
+                      text-transform: uppercase;
+                      font-weight: 900;
+                      position: absolute;
+                      margin-top: 76px;
+                      margin-left: 46px;
+                      font-weight: 1700;
+                      "><span style="color:#4ECDC4;">H</span>UB</span>
+    
+    
+    
+    
+    
+    
+                    <i class="fa fa-github" style="font-size: 212px;color: black;"></i>
+                  </div>
+                  <div class="col-md-8">
+                    <!-- <p style="text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;" class="logo"><b><span>H</span>UB</b> & <i class="fa fa-github"></i></p> -->
+                    
+
+                    <p> 
+                      <span style="text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+                      font-size: 24px;color: #f2f2f2; text-transform: uppercase;font-weight: 900;;
+                      "><span style="color:#4ECDC4;">H</span>UB & <i class="fa fa-github" ></i></span>
+                      
+                      
+                    </p> 
+                    <!-- <p class="small">
+                      <3 hours ago 
+                    </p> -->
+                    
+                    <p class="message" style="font-weight: 600;margin-bottom: 0px;color:#bc3232">
+                      GitHub Repository 주소를 아래 칸에 입력하시고 Search 버튼을 누르시면<br>
+                      입력한 Repository에서 개인정보를 검색 후 결과 값을 분석합니다.<br><br>
+                      분석된 결과 항목들을 클릭하시면 해당 데이터가 포함된 파일 내용을 볼 수 있습니다.</p>
+                    <br>
+                    <form class="form-inline" action="/post" role="form" method="post">
+                      {% if error %}<p class="message" style="color:#fff;background:#bc3232;padding:10px;">{{ error }}</p>{% endif %}
+                      <div class="form-group">
+                        <input type="text" class="form-control" id="exampleInputText" name="userURL"
+                          placeholder="Input URL">
+                      </div>
+                      <button type="submit" class="btn btn-default">Search</button>
+                      <br><br>
+                      <label class="checkbox-inline">
+                        <input type="checkbox" id="inlineCheckbox1" value="option1" ><span style="font-weight: 600;">사용자 정규식 직접 검사</span>
+                      </label>
+                      <p></p>
+                      <div class="form-group" id="usermake" style="display: none;">
+                        <input type="text" class="form-control" id="exampleInputText" name="userMake"
+                          placeholder="사용자 정규식 입력">
+                      </div>
+                      <br>
+
+                    </form>
+                  </div>
+                </div>
+              </div>
+              <!-- /Message Panel-->
+            </div>
+
+
+
+            <!--custom chart end-->
+            <div class="row mt">
+              <!-- SERVER STATUS PANELS -->
+              <div class="col-lg-4 col-md-4 col-sm-4 mb">
+                <div class="content-panel pn">
+                  <div id="blog-bg">
+                    <div class="badge badge-popular"><i class="fa fa-github" style="font-size: 65px;"></i></div>
+                    <div class="blog-title" style="    width: 80%;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;" >{{repo[0]}}의 Github 저장소 </div>
+                    
+                  </div>
+                  <div class="blog-text" style="margin-top: 25px;margin-left: 20px;margin-right: 20px;">
+                    <p style="font-size: large;text-align: center;
+                     width:auto; 
+                    white-space: nowrap;  
+                  overflow: hidden; 
+                  text-overflow: ellipsis; 
+                    "><span><b>{{repo[0]}}</b></span>의 <span><b>{{repo[1]}}</b></span><br> Repository <a href="{{User_url}}">URL바로가기</a></p>
+                  </div>
+                </div>
+              </div> 
+              <div class="col-lg-4 col-md-4 col-sm-4 mb">
+                <div class="weather-3 pn centered">
+                  <i class="fa fa-warning"></i>
+                  <h1>{{Detect_count}}개</h1>
+                  <div class="info">
+                    <div class="row">
+                      <h3 class="centered">위험요소 발견</h3>
+                      <div class="col-sm-6 col-xs-6 pull-left">
+                        <p class="goleft"> </p>
+                      </div>
+                      <div class="col-sm-6 col-xs-6 pull-right">
+                        <p class="goright"> </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- /col-md-4-->
+              <div class="col-md-4 col-sm-4 mb">
+                <div class="darkblue-panel pn">
+                  <div class="darkblue-header">
+                    <h5>탐지 수</h5>
+                  </div>
+                  <canvas id="serverstatus02" height="120" width="120"></canvas>
+                  <script>
+                    var doughnutData = [{
+                        // value: {{All_count}},
+                        value: {{ All_count|tojson }}-{{ Detect_count|tojson }},
+                        color: "#1c9ca7"
+                      },
+                      {
+                        // value: {{Detect_count}}, //얘가 탐지비율
+                        value: {{ Detect_count|tojson }},
+                        color: "#f68275"
+                      }
+                    ];
+                    var myDoughnut = new Chart(document.getElementById("serverstatus02").getContext("2d")).Doughnut(doughnutData);
+                    var detect_percent={{ ((Detect_count / All_count * 100) if All_count else 0)|tojson }};
+                   
+                  </script>
+                  <p style="color:white"><i class="fa fa-square" style="color: #f38375;"></i> 탐지&nbsp<i class="fa fa-square" style="color: #4ECDC4;"></i> 전체데이터</p>
+                  <footer>
+                    <div class="pull-left" style="width: 70%;">
+                      <h5 style="white-space: nowrap;
+                      overflow: hidden;
+                      text-overflow: ellipsis;"><i class="fa fa-hdd-o"></i>&nbsp Repository - {{repo[1]}}</h5>
+                    </div>
+                    <div class="pull-right" style="width: 30%;">
+                      <script>
+                         
+                      </script>
+                      <h5 id="gid"></h5>
+                      <!-- document.write(); -->
+                    </div>
+                  </footer>
+                </div>
+                <!--  /darkblue panel -->
+              </div>
+               
+            </div>
+            
+
+            <div class="row content-panel mt mb" style="margin-left: 0px;margin-right: 0px;margin-top: 0px;">
+              <div class="col-md-6" style="width: 100%;">
+                <!--
+              <blockquote contenteditable="fales" style="font-size: 14.5px;">
+		                                 깃허브 주소 입력값 : <span style="color:green;"> 임시입력주소 </span>
+				    <br><span style="color:blue;">http://raw.git임시주소 출력</span>
+				    <br><span style="color:blue;">http://raw.git임시주소 출력</span>
+				    <br><span>AWS Access KEY 의심 문자열 : #AW임시입력</span>
+				    <br><span style="color:red;">IP 의심 문자열 : 192.123.123.123</span>
+				    <br><span>주민번호 의심 문자열 : 주민번호:1234568-12345678</span>
+            <br><span>주민번호 의심 문자열 : 1234568-12345678</span>
+          </blockquote>
+          -->
+              <h4><i class="fa fa-desktop"></i>&nbsp 전체탐지내역</h4>
+                <blockquote contenteditable="fales" style="font-size: 17.5px;">
+                  <ul>
+                    {% for key,value in Detect_data.items() %}
+                    <li> 
+                      {% if key == 'reg' %}
+                        <i class="fa fa-user"></i>&nbsp 주민등록번호 탐지 : <span id="text" style="color:#f45b5b;" >{{value}}</span>
+                      {% elif key == 'call' %}
+                        <i class="fa fa-phone"></i>&nbsp 전화번호 탐지 : <span id="text" style="color: rgb(215 121 238);" >{{value}}</span>
+                      {% elif key == 'ip' %}
+                        <i class="fa fa-hdd-o"></i>&nbsp IP : <span id="text" style="color:#56b256;" >{{value}}</span>
+                      {% elif key == 'aws_access' %}
+                        <i class="fa fa-wrench"></i>&nbsp aws_access : <span id="text" style="color:#6a6af2;" >{{value}}</span>
+                      {% elif key == 'aws_secret' %}
+                        <i class="fa fa-lock"></i>&nbsp&nbsp aws_secret : <span id="text" style="color:rgb(150, 92, 17);" >{{value}}</span>
+                      {% elif key == 'ssh_private_key' %}
+                        <i class="fa fa-key"></i>&nbsp SSH 개인키 : <span id="text" style="color:#bc3232;" >{{value}}</span>
+                      {% elif key == 'openai_api_key' %}
+                        <i class="fa fa-key"></i>&nbsp OpenAI API 키 : <span id="text" style="color:#bc3232;" >{{value}}</span>
+
+                      {% else %}
+                      <span id="text" style="color:black;" >{{key}},{{value}}</span>
+                      {% endif %}
+                    </li>
+                    {% endfor %}
+                  </ul>
+                </blockquote>
+                <!-- <h5 contenteditable="true">Believe in yourself</h5> -->
+              </div>
+
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb">
+                <div class="content-panel">
+                  <h4 style="margin-left: 20px;"> <i class="fa fa-user" ></i>  &nbsp 주민번호</h4><table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th class="col-md-1">#</th>
+                        <th class="col-md-7">Content</th>
+                        <th class="col-md-2">File</th>
+                        <th class="col-md-2" style="text-align:center;">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for reg in Detect_data.get('reg') %}
+                      <tr scope="row" style="cursor: pointer;" onclick='detailcode({{ reg[1]|tojson }})'>
+                        <td> {{ loop.index }}</td>
+                        <td class="ellipsis"><span>{{reg[0]}}</span></td>
+                        <td class="ellipsis"><span>{{reg[1]}}</span></td>
+                        <td style="text-align:center;"><span class="label label-warning label-mini">경고</span></td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+  
+              <div class="col-md-6 mb">
+                <div class="content-panel">
+                  <h4 style="margin-left: 20px;"><i class="fa fa-phone"></i>&nbsp 전화번호</h4><table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th class="col-md-1">#</th>
+                        <th class="col-md-7">Content</th>
+                        <th class="col-md-2">File</th>
+                        <th class="col-md-2" style="text-align:center;">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for call in Detect_data.get('call') %}
+                      <tr style="cursor: pointer;" onclick='detailcode({{ call[1]|tojson }})'>
+                        <td>{{ loop.index }}</td>
+                        <td class="ellipsis"><span>{{call[0]}}</span></td>
+                        <td class="ellipsis"><span>{{call[1]}}</span></td>
+                        <td style="text-align:center;"><span class="label label-warning label-mini">경고</span></td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+          </div>
+
+            <div class="row">
+              <div class="col-md-6 mb"  >
+                <div class="content-panel">
+                  <h4 style="margin-left: 20px;"><i class="fa fa-wrench"></i>&nbsp AWS ACCESSKEY</h4><table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th class="col-md-1">#</th>
+                        <th class="col-md-7">Content</th>
+                        <th class="col-md-2">File</th>
+                        <th class="col-md-2" style="text-align:center;">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for aac in Detect_data.get('aws_access') %}
+                      <tr scope="row" style="cursor: pointer;" onclick='detailcode({{ aac[1]|tojson }})'>
+                        <td>{{ loop.index }}</td>
+                        <td class="ellipsis"><span>{{aac[0]}}</span></td>
+                        <td class="ellipsis"><span>{{aac[1]}}</span></td>
+                        <td style="text-align:center;"><span class="label label-warning label-mini" style="background-color: red;">위험</span></td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="col-md-6 mb"  >
+                <div class="content-panel">
+                  <h4 style="margin-left: 20px;"><i class="fa fa-lock"></i>&nbsp AWS SECRET KEY</h4><table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th class="col-md-1">#</th>
+                        <th class="col-md-7">Content</th>
+                        <th class="col-md-2">File</th>
+                        <th class="col-md-2" style="text-align:center;">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for secr in Detect_data.get('aws_secret') %}
+                      <tr scope="row" style="cursor: pointer;" onclick='detailcode({{ secr[1]|tojson }})'>
+                        <td>{{ loop.index }}</td>
+                        <td class="ellipsis"><span>{{secr[0]}}</span></td>
+                        <td class="ellipsis"><span>{{secr[1]}}</span></td>
+                        <td style="text-align:center;"><span class="label label-warning label-mini">경고</span></td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+  
+            <div class="row">
+              <div class="col-md-6 mb"  >
+                <div class="content-panel">
+                  <h4 style="margin-left: 20px;"><i class="fa fa-hdd-o"></i></i>&nbsp IP</h4><table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th class="col-md-1">#</th>
+                        <th class="col-md-7">Content</th>
+                        <th class="col-md-2">File</th>
+                        <th class="col-md-2" style="text-align:center;">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for ip in Detect_data.get('ip') %}
+                      <tr scope="row" style="cursor: pointer;" onclick='detailcode({{ ip[1]|tojson }})'>
+                        <td>{{ loop.index }}</td>
+                        <td class="ellipsis"><span>{{ip[0]}}</span></td>
+                        <td class="ellipsis"><span>{{ip[1]}}</span></td>
+                        <td style="text-align:center;"><span class="label label-warning label-mini">경고</span></td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="col-md-6 mb"  >
+                <div class="content-panel">
+                  <h4 style="margin-left: 20px;"><i class="fa fa-key"></i>&nbsp SSH 개인키</h4><table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th class="col-md-1">#</th>
+                        <th class="col-md-7">Content</th>
+                        <th class="col-md-2">File</th>
+                        <th class="col-md-2">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for ssh in Detect_data.get('ssh_private_key') %}
+                      <tr scope="row" style="cursor: pointer;" onclick='detailcode({{ ssh[1]|tojson }})'>
+                        <td>{{ loop.index }}</td>
+                        <td class="ellipsis"><span>{{ssh[0]}}</span></td>
+                        <td class="ellipsis"><span>{{ssh[1]}}</span></td>
+                        <td style="text-align:center;"><span class="label label-danger label-mini">위험</span></td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb">
+                <div class="content-panel">
+                  <h4 style="margin-left: 20px;"><i class="fa fa-key"></i>&nbsp OpenAI API 키</h4><table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th class="col-md-1">#</th>
+                        <th class="col-md-7">Content</th>
+                        <th class="col-md-2">File</th>
+                        <th class="col-md-2" style="text-align:center;">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for openai_key in Detect_data.get('openai_api_key') %}
+                      <tr scope="row" style="cursor: pointer;" onclick='detailcode({{ openai_key[1]|tojson }})'>
+                        <td>{{ loop.index }}</td>
+                        <td class="ellipsis"><span>{{openai_key[0]}}</span></td>
+                        <td class="ellipsis"><span>{{openai_key[1]}}</span></td>
+                        <td style="text-align:center;"><span class="label label-danger label-mini">위험</span></td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <textarea style="height: 250px;background-color: black;color: white;resize: none;" class="form-control" name="message" id="detailcode"
+                placeholder="각 Content들을 클릭하면 해당 Content가 포함된 파일 내용이 출력됩니다!" rows="5" data-rule="required" data-msg="Please write something for us"></textarea>
+              <div class="validate"></div>
+            </div>
+
+
+          </div>
+          <div class="col-lg-1"></div>
+        </div>
+        <!-- /row -->
+      </section>
+    </section>
+    <!--main content end-->
+    <!--footer start-->
+    <footer class="site-footer">      
+      <div class="text-center">
+        <p style="font-size: 5px;text-align: end;margin-right: 40px;">
+          Front developer Kim BeomJung
+        </p>
+        <div class="credits">
+  
+
+        </div>
+        <a href="index.html#" class="go-top">
+          <i class="fa fa-angle-up"></i>
+        </a>
+      </div>
+    </footer>
+    <!--footer end-->
+  </section>
+  <!-- js placed at the end of the document so the pages load faster -->
+  <script src="{{ url_for('static', filename='lib/jquery/jquery.min.js') }}"></script>
+
+  <script src="{{ url_for('static', filename='lib/bootstrap/js/bootstrap.min.js') }}"></script>
+  <script class="include" type="text/javascript"
+    src="{{ url_for('static', filename='lib/jquery.dcjqaccordion.2.7.js') }}"></script>
+  <script src="{{ url_for('static', filename='lib/jquery.scrollTo.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='lib/jquery.nicescroll.js') }}" type="text/javascript"></script>
+  <script src="{{ url_for('static', filename='lib/jquery.sparkline.js') }}"></script>
+  <!--common script for all pages-->
+  <script src="{{ url_for('static', filename='lib/common-scripts.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='lib/gritter/js/jquery.gritter.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='lib/gritter-conf.js') }}"></script>
+  <!--script for this page-->
+  <script src="{{ url_for('static', filename='lib/sparkline-chart.js') }}"></script>
+  <script src="{{ url_for('static', filename='lib/zabuto_calendar.js') }}"></script>
+
+  <script type="application/javascript">
+    $(document).ready(function () {
+      $("#date-popover").popover({
+        html: true,
+        trigger: "manual"
+      });
+      $("#date-popover").hide();
+      $("#date-popover").click(function (e) {
+        $(this).hide();
+      });
+
+      $("#my-calendar").zabuto_calendar({
+        action: function () {
+          return myDateFunction(this.id, false);
+        },
+        action_nav: function () {
+          return myNavFunction(this.id);
+        },
+        ajax: {
+          url: "show_data.php?action=1",
+          modal: true
+        },
+        legend: [{
+          type: "text",
+          label: "Special event",
+          badge: "00"
+        },
+        {
+          type: "block",
+          label: "Regular event",
+        }
+        ]
+      });
+    });
+
+    function myNavFunction(id) {
+      $("#date-popover").hide();
+      var nav = $("#" + id).data("navigation");
+      var to = $("#" + id).data("to");
+      console.log('nav ' + nav + ' to: ' + to.month + '/' + to.year);
+    }
+
+
+    $(document).ready(function () {
+      $("#inlineCheckbox1").change(function () {
+        if ($("#inlineCheckbox1").is(":checked")) {
+          //alert("체크박스 체크했음!");
+          $("#usermake").css("display", "flex");
+        } else {
+          $("#usermake").css("display", "none");
+        }
+      });
+    });
+
+  function detailcode(code){
+    $("#detailcode").val();
+    var userid = {{ repo[0]|tojson }};
+    var repp = {{ repo[1]|tojson }};
+    var branch = {{ repo[2]|tojson }};
+    var giturl = 'https://raw.githubusercontent.com/';
+
+    $.ajax({
+      url: giturl+'/'+encodeURIComponent(userid)+'/'+encodeURIComponent(repp)+'/'+encodeURIComponent(branch)+'/'+code.split('/').map(encodeURIComponent).join('/'),
+      type:'GET',
+      success : function (data){ 
+        console.log(data);
+        $("#detailcode").val("File Name : "+code + "\n\n" + "-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
+        +"\n"+"Contants : " + "\n\n"+data);
+      },
+    })
+
+    $('html, body').animate({ scrollTop: $(document).height()},800);
+    //$('html, body').scrollTop( $(document).height() );
+
+    // jQuery.ajax({
+		//     type:"POST", 
+    //     url : "https://raw.githubusercontent.com/pil9/KUCIS_Privacy/master/"+code,
+    //     beforeSend : function(xhr){
+    //         // xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+    //         xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+    //         xhr.setRequestHeader("Access-Control-Allow-Headers", "*");}
+    //         ,
+		//     success : function(data) { 
+		//     	console.log("data:"+data);
+		//     	obj = data;
+    //       console.log("값:"+obj);
+		    	
+		    	
+		//     },
+		//      complete : function(data) { },
+		//      error : function(xhr, status , error) {console.log("ajax ERROR!!! : " );
+		// }
+	  // });
+
+
+  }
+
+  $('#gid').html("<h5>"+detect_percent.toFixed(1)+"%"+"</h5>");
+  // $('#gid').html(detect_percent.toFixed(1)+"%");
+
+  </script>
+</body>
+
+</html>
